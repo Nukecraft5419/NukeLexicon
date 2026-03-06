@@ -23,5 +23,99 @@
  */
 package dev.nukecraft5419.nukelexicon;
 
+import dev.nukecraft5419.nukelexicon.config.LanguageConfigManager;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.plugin.Plugin;
+
+/**
+ * NukeLexicon - Advanced i18n & MiniMessage Text API.
+ * This is the main core class of the library.
+ */
 public class NukeLexicon {
+
+    private static NukeLexicon instance;
+
+    private final Plugin plugin;
+    private BukkitAudiences adventure;
+    private final LanguageConfigManager languageManager;
+    private final String fallbackLanguage;
+    private final String defaultPrefix;
+
+    /**
+     * Private constructor for the Singleton pattern.
+     */
+    private NukeLexicon(Plugin plugin, String fallbackLanguage, String defaultPrefix) {
+        this.plugin = plugin;
+        this.fallbackLanguage = fallbackLanguage;
+        this.defaultPrefix = defaultPrefix;
+
+        // Initialize Adventure (MiniMessage) hooking into the user's plugin
+        this.adventure = BukkitAudiences.create(plugin);
+
+        // Initialize the language manager
+        this.languageManager = new LanguageConfigManager(plugin);
+    }
+
+    /**
+     * Initializes the NukeLexicon library.
+     * This must be called inside the user plugin's onEnable() method.
+     *
+     * @param plugin The instance of the user plugin (e.g., 'this').
+     * @param fallbackLanguage The default fallback language (e.g., "en_US").
+     * @param defaultPrefix The emergency prefix if missing in config.
+     */
+    public static void init(Plugin plugin, String fallbackLanguage, String defaultPrefix) {
+        if (instance != null) {
+            plugin.getLogger().warning("NukeLexicon is already initialized!");
+            return;
+        }
+        instance = new NukeLexicon(plugin, fallbackLanguage, defaultPrefix);
+    }
+
+    /**
+     * Closes the Adventure audiences to prevent memory leaks.
+     * This should be called inside the user plugin's onDisable() method.
+     */
+    public static void close() {
+        if (instance != null && instance.adventure != null) {
+            instance.adventure.close();
+            instance.adventure = null;
+        }
+        instance = null;
+    }
+
+    /**
+     * Gets the global NukeLexicon instance.
+     *
+     * @return The NukeLexicon API instance.
+     * @throws IllegalStateException If the library hasn't been initialized yet.
+     */
+    public static NukeLexicon getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("NukeLexicon is not initialized! Call NukeLexicon.init(...) first.");
+        }
+        return instance;
+    }
+
+    // --- GETTERS ---
+
+    public Plugin getPlugin() {
+        return plugin;
+    }
+
+    public BukkitAudiences getAdventure() {
+        return adventure;
+    }
+
+    public LanguageConfigManager getLanguageManager() {
+        return languageManager;
+    }
+
+    public String getFallbackLanguage() {
+        return fallbackLanguage;
+    }
+
+    public String getDefaultPrefix() {
+        return defaultPrefix;
+    }
 }
