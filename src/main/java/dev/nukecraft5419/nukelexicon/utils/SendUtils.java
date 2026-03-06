@@ -25,6 +25,7 @@ package dev.nukecraft5419.nukelexicon.utils;
 
 import dev.nukecraft5419.nukelexicon.NukeLexicon;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -42,11 +43,11 @@ public class SendUtils {
      * @param sender  The recipient (Player or Console).
      * @param message The raw string containing MiniMessage tags (and optionally PAPI placeholders).
      */
-    public static void sendMessage(CommandSender sender, String message) {
+    public static void sendMessage(CommandSender sender, String message, TagResolver extraTags) {
         if (sender == null || message == null || message.isEmpty()) return;
 
         // 1. Convert the raw string into an Adventure Component using our format engine
-        Component component = MessagesUtils.format(sender, message);
+        Component component = MessagesUtils.format(sender, message, extraTags);
 
         // 2. Deliver the Component using the Adventure Platform bridge.
         // This is necessary because native Spigot CommandSenders do not support Component objects directly.
@@ -59,22 +60,22 @@ public class SendUtils {
      * @param sender   The recipient (Player or Console).
      * @param messages The list of raw strings to send.
      */
-    public static void sendMessages(CommandSender sender, List<String> messages) {
+    public static void sendMessages(CommandSender sender, List<String> messages, TagResolver extraTags) {
         if (sender == null || messages == null || messages.isEmpty()) return;
 
         for (String msg : messages) {
-            sendMessage(sender, msg);
+            sendMessage(sender, msg, extraTags);
         }
     }
 
-    public static void sendTranslation(CommandSender sender, String path) {
+    public static void sendTranslation(CommandSender sender, String path, TagResolver extraTags) {
         if (sender == null || path == null || path.isEmpty()) return;
 
         String rawMessage = NukeLexicon.getInstance().getLanguageManager().getRawMessage(sender, path);
 
         if (rawMessage == null || rawMessage.isEmpty()) return;
 
-        sendMessage(sender, rawMessage);
+        sendMessage(sender, rawMessage, extraTags);
     }
 
     /**
@@ -85,7 +86,7 @@ public class SendUtils {
      * @param sender The recipient of the messages (Player or Console).
      * @param path   The YAML key path to the string list in the locales file (e.g., "plugin.help").
      */
-    public static void sendTranslations(CommandSender sender, String path) {
+    public static void sendTranslations(CommandSender sender, String path, TagResolver extraTags) {
         // 1. Validate inputs to prevent errors
         if (sender == null || path == null || path.isEmpty()) return;
 
@@ -96,7 +97,7 @@ public class SendUtils {
         if (rawMessages == null || rawMessages.isEmpty()) return;
 
         // 4. Delegate to the existing list sender (which handles formatting and dispatching)
-        sendMessages(sender, rawMessages);
+        sendMessages(sender, rawMessages, extraTags);
     }
 
     /**
@@ -105,7 +106,7 @@ public class SendUtils {
      *
      * @param message The message to log (supports custom tags like <prefix> and colors like <green>).
      */
-    public static void log(String message) {
-        sendMessage(Bukkit.getConsoleSender(), message);
+    public static void log(String message, TagResolver extraTags) {
+        sendMessage(Bukkit.getConsoleSender(), message, extraTags);
     }
 }

@@ -57,11 +57,10 @@ public class MessagesUtils {
      * @param message The raw string containing MiniMessage tags and PAPI placeholders.
      * @return The formatted Adventure Component.
      */
-    public static Component format(CommandSender sender, String message) {
+    public static Component format(CommandSender sender, String message, TagResolver extraTags) {
         if (message == null || message.isEmpty()) return Component.empty();
 
         Player player = (sender instanceof Player p) ? p : null;
-
         message = convertLegacyToMiniMessage(message);
 
         // STEP 1: Auto-translate legacy PAPI syntax
@@ -78,7 +77,7 @@ public class MessagesUtils {
         // STEP 3: Deserialize the message
         // MiniMessage processes standard tags, our internal tags, and dynamically fetches PAPI values
         // safely injecting them as components without breaking RGB gradients in the surrounding text.
-        return MINI_MESSAGE.deserialize(message, TagResolver.resolver(internalTags, papiResolver));
+        return MINI_MESSAGE.deserialize(message, TagResolver.resolver(internalTags, papiResolver, TagResolver.resolver(extraTags)));
     }
 
     /**
