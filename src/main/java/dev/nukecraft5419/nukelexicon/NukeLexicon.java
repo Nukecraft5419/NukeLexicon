@@ -25,6 +25,8 @@ package dev.nukecraft5419.nukelexicon;
 
 import dev.nukecraft5419.nukelexicon.config.LanguageConfigManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -36,6 +38,7 @@ public class NukeLexicon {
     private static NukeLexicon instance;
 
     private final Plugin plugin;
+    private Metrics metrics;
     private BukkitAudiences adventure;
     private final LanguageConfigManager languageManager;
     private final String fallbackLanguage;
@@ -46,6 +49,7 @@ public class NukeLexicon {
      */
     private NukeLexicon(Plugin plugin, String fallbackLanguage, String defaultPrefix) {
         this.plugin = plugin;
+        this.metrics = new Metrics(plugin, 29948);
         this.fallbackLanguage = fallbackLanguage;
         this.defaultPrefix = defaultPrefix;
 
@@ -54,6 +58,8 @@ public class NukeLexicon {
 
         // Initialize the language manager
         this.languageManager = new LanguageConfigManager(plugin);
+
+        metrics.addCustomChart(new SimplePie("online_language", () -> fallbackLanguage));
     }
 
     /**
