@@ -63,6 +63,26 @@ public class NukeLexicon {
     }
 
     /**
+     * Initializes the NukeLexicon library with automatic metadata detection.
+     * It retrieves the version and prefix directly from the provided plugin instance.
+     * Fallback language defaults to "en_US".
+     *
+     * @param plugin The instance of the user plugin (e.g., 'this').
+     */
+    public static void init(Plugin plugin) {
+        // Auto-detect version from plugin.yml
+        String version = plugin.getDescription().getVersion();
+
+        // Auto-detect prefix or use a formatted plugin name as fallback
+        String prefix = plugin.getDescription().getPrefix() != null ?
+            plugin.getDescription().getPrefix() :
+            "&8[&b" + plugin.getName() + "&8]";
+
+        // Call the main init method with default US English as fallback
+        init(plugin, "en_US", prefix);
+    }
+
+    /**
      * Initializes the NukeLexicon library.
      * This must be called inside the user plugin's onEnable() method.
      *

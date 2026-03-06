@@ -26,7 +26,7 @@ Add the JitPack repository and the dependency to your `build.gradle.kts`:
 ```kotlin
 repositories {
     mavenCentral()
-    maven("[https://jitpack.io](https://jitpack.io)")
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -35,9 +35,10 @@ dependencies {
 }
 ```
 
-### Initialize the API
-Initialize NukeLexicon in your plugin's onEnable to setup the Adventure audience platform:
+### **Option A: Quick Initialization (Recommended)**
 
+Automatically detects your plugin's name, prefix, and uses `en_US` as the default language.
+    
 ```java
 @Override
 public void onEnable() {
@@ -46,7 +47,30 @@ public void onEnable() {
 }
 ```
 
+### Option B: Advanced Initialization
+
+Manually define the fallback language and the default prefix.
+
+```java
+@Override
+public void onEnable() {
+    // Parameters: Plugin instance, Fallback language, Default Prefix
+    NukeLexicon.init(this, "en_GB", "&8[&6MyPlugin&8]");
+}
+```
+
+### 1.5 Clean Shutdown
+
+To prevent memory leaks, remember to close the API in your onDisable:
+```java
+@Override
+public void onDisable() {
+    NukeLexicon.close();
+}
+```
+
 ### Send Formatted Messages
+
 Use SendUtils to deliver MiniMessage-formatted strings to any CommandSender:
 
 ```java
@@ -59,6 +83,7 @@ SendUtils.log("<red>[Alert]</red> System core initialized.");
 
 
 ### Localization (i18n)
+
 Retrieve and send messages based on the player's client language automatically:
 
 ```java
@@ -67,10 +92,13 @@ SendUtils.sendTranslation(player, "messages.welcome");
 ```
 
 ### 📊 Metrics
+
 NukeLexicon uses bStats to track anonymous usage data. View global statistics here:
+
 [![https://bstats.org/signatures/bukkit/NukeLexicon.svg](https://bstats.org/signatures/bukkit/NukeLexicon.svg)](https://bstats.org/plugin/bukkit/NukeLexicon/29948)
 
 ### 📄 License
+
 This project is licensed under the MIT License.
 
 <div align="center">
