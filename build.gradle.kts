@@ -17,9 +17,6 @@ repositories {
     maven("https://repo.extendedclip.com/releases/") {
         name = "placeholder-api"
     }
-    maven("https://jitpack.io") {
-         name = "JitPack"
-    }
 }
 
 dependencies {
@@ -28,7 +25,6 @@ dependencies {
     compileOnly(libs.adventureBukkit) // Adventure Platform Bukkit
     compileOnly(libs.miniMessage) // MiniMessage API
 
-    implementation(libs.jitPack) // JitPack
     implementation(libs.bStats) // bStats API
 }
 
