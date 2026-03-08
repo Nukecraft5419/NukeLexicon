@@ -37,6 +37,14 @@ import java.util.List;
  */
 public class SendUtils {
 
+    private SendUtils() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
+
+    // =========================================
+    // FULL METHODS (With TagResolver parameter)
+    // =========================================
+
     /**
      * Formats and sends a single MiniMessage string to a CommandSender.
      *
@@ -120,5 +128,58 @@ public class SendUtils {
      */
     public static void log(String message, TagResolver extraTags) {
         sendMessage(Bukkit.getConsoleSender(), message, extraTags);
+    }
+
+    // =========================================
+    // SHORTHAND METHODS (No TagResolver needed)
+    // =========================================
+
+    /**
+     * Formats and sends a single MiniMessage string to a CommandSender.
+     *
+     * @param sender  The recipient (Player or Console).
+     * @param message The raw string containing MiniMessage tags.
+     */
+    public static void sendMessage(CommandSender sender, String message) {
+        sendMessage(sender, message, TagResolver.empty());
+    }
+
+    /**
+     * Formats and sends a list of MiniMessage strings to a CommandSender.
+     *
+     * @param sender   The recipient (Player or Console).
+     * @param messages The list of raw strings to send.
+     */
+    public static void sendMessages(CommandSender sender, List<String> messages) {
+        sendMessages(sender, messages, TagResolver.empty());
+    }
+
+    /**
+     * Translates and sends a single message to a CommandSender based on their client language.
+     *
+     * @param sender The recipient of the message (Player or Console).
+     * @param path   The YAML key path in the locale file.
+     */
+    public static void sendTranslation(CommandSender sender, String path) {
+        sendTranslation(sender, path, TagResolver.empty());
+    }
+
+    /**
+     * Translates and sends a list of messages to a CommandSender based on their client language.
+     *
+     * @param sender The recipient of the messages (Player or Console).
+     * @param path   The YAML key path to the string list in the locales file.
+     */
+    public static void sendTranslations(CommandSender sender, String path) {
+        sendTranslations(sender, path, TagResolver.empty());
+    }
+
+    /**
+     * Logs a formatted message directly to the server console.
+     *
+     * @param message The message to log.
+     */
+    public static void log(String message) {
+        log(message, TagResolver.empty());
     }
 }

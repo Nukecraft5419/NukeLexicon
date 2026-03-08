@@ -48,6 +48,10 @@ public class MessagesUtils {
     // Thread-safe MiniMessage instance
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
 
+    private MessagesUtils() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
+
     /**
      * Formats a raw string into an Adventure Component.
      * Dynamically translates classic %placeholder% syntax into MiniMessage {@code <papi:placeholder>} tags
@@ -79,6 +83,18 @@ public class MessagesUtils {
         // MiniMessage processes standard tags, our internal tags, and dynamically fetches PAPI values
         // safely injecting them as components without breaking RGB gradients in the surrounding text.
         return MINI_MESSAGE.deserialize(message, TagResolver.resolver(internalTags, papiResolver, TagResolver.resolver(extraTags)));
+    }
+
+    /**
+     * Formats a raw string into an Adventure Component.
+     * Shorthand method for when no extra custom Placeholder tags are needed.
+     *
+     * @param sender  The CommandSender context (used for player-specific placeholders).
+     * @param message The raw string containing MiniMessage tags and PAPI placeholders.
+     * @return The formatted Adventure Component.
+     */
+    public static Component format(CommandSender sender, String message) {
+        return format(sender, message, TagResolver.empty());
     }
 
     /**

@@ -43,6 +43,10 @@ import java.util.logging.Level;
  */
 public class ConfigUpdaterUtils {
 
+    private ConfigUpdaterUtils() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
+
     /**
      * Updates a YAML configuration file by merging it with the default file in the JAR.
      * It intelligently preserves user values and comments.
