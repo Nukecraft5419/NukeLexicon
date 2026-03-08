@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dev.nukecraft5419.nukelexicon"},{"l":"dev.nukecraft5419.nukelexicon.config"},{"l":"dev.nukecraft5419.nukelexicon.utils"}];updateSearchResults();
