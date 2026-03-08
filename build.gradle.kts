@@ -18,12 +18,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.spigot) // Spigot API
-    compileOnly(libs.placeholderApi) // Placeholder API
+  compileOnly(libs.spigot) // Spigot API
+  compileOnly(libs.placeholderApi) // Placeholder API
 
-    implementation(libs.adventureBukkit) // Adventure Platform Bukkit
-    implementation(libs.miniMessage) // MiniMessage API
-    implementation(libs.bStats) // bStats API
+  api(libs.adventureBukkit) // Adventure Platform Bukkit
+  api(libs.miniMessage) // MiniMessage API
+
+  implementation(libs.bStats) // bStats API
 }
 
 java {
@@ -47,7 +48,6 @@ tasks.shadowJar {
   // Relocation: Moves external libraries into our API's internal package structure.
   // This is CRITICAL to prevent ClassNotFoundException or NoSuchMethodError conflicts
   // if a plugin using this API also has another version of these libraries.
-  relocate("net.kyori", "dev.nukecraft5419.nukelexicon.libs.kyori")
   relocate("org.bstats", "dev.nukecraft5419.nukelexicon.libs.bstats")
 }
 
