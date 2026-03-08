@@ -52,7 +52,7 @@ public class CustomConfig {
      * Creates or loads a custom YAML configuration file in the main plugin folder.
      *
      * @param plugin   The main plugin instance.
-     * @param fileName The name of the file (e.g., "config.yml").
+     * @param fileName The name of the file (e.g., {@code "config.yml"}).
      */
     public CustomConfig(@NotNull Plugin plugin, @NotNull String fileName) {
         this(plugin, fileName, null);
@@ -62,8 +62,8 @@ public class CustomConfig {
      * Creates or loads a custom YAML configuration file in a specific subfolder.
      *
      * @param plugin   The main plugin instance.
-     * @param fileName The name of the file (e.g., "spawn.yml" or just "spawn").
-     * @param folder   The subfolder (e.g., "locales"). Use null for the main folder.
+     * @param fileName The name of the file (e.g., {@code "spawn.yml"} or just {@code "spawn"}).
+     * @param folder   The subfolder (e.g., {@code "locales"}). Use {@code null} for the main folder.
      */
     public CustomConfig(@NotNull Plugin plugin, @NotNull String fileName, @Nullable String folder) {
         this.plugin = plugin;
@@ -103,7 +103,7 @@ public class CustomConfig {
     /**
      * Gets the loaded configuration instance.
      *
-     * @return The FileConfiguration to read/write data.
+     * @return The {@link FileConfiguration} to read/write data.
      */
     @NotNull
     public FileConfiguration getConfig() {

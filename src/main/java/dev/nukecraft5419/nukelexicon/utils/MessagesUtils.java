@@ -50,11 +50,12 @@ public class MessagesUtils {
 
     /**
      * Formats a raw string into an Adventure Component.
-     * Dynamically translates classic %placeholder% syntax into MiniMessage <papi:placeholder> tags
+     * Dynamically translates classic %placeholder% syntax into MiniMessage {@code <papi:placeholder>} tags
      * to preserve RGB gradients and modern formatting while fully supporting PlaceholderAPI.
      *
-     * @param sender  The CommandSender context (used for player-specific placeholders).
-     * @param message The raw string containing MiniMessage tags and PAPI placeholders.
+     * @param sender    The CommandSender context (used for player-specific placeholders).
+     * @param message   The raw string containing MiniMessage tags and PAPI placeholders.
+     * @param extraTags Additional custom Placeholder tags to resolve (or TagResolver.empty()).
      * @return The formatted Adventure Component.
      */
     public static Component format(CommandSender sender, String message, TagResolver extraTags) {
@@ -94,7 +95,7 @@ public class MessagesUtils {
      * Safely constructs the PAPI TagResolver.
      * It uses a wrapper class so the JVM doesn't crash if PAPI is missing.
      * @param player The player context for PlaceholderAPI.
-     * @return A TagResolver capable of parsing <papi:...> tags.
+     * @return A TagResolver capable of parsing {@code <papi:...>} tags.
      */
     private static @NotNull TagResolver createSafePapiResolver(final @NotNull Player player) {
         return TagResolver.resolver("papi", (argumentQueue, context) -> {

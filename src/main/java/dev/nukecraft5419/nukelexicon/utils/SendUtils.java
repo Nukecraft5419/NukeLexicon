@@ -40,8 +40,9 @@ public class SendUtils {
     /**
      * Formats and sends a single MiniMessage string to a CommandSender.
      *
-     * @param sender  The recipient (Player or Console).
-     * @param message The raw string containing MiniMessage tags (and optionally PAPI placeholders).
+     * @param sender    The recipient (Player or Console).
+     * @param message   The raw string containing MiniMessage tags.
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
      */
     public static void sendMessage(CommandSender sender, String message, TagResolver extraTags) {
         if (sender == null || message == null || message.isEmpty()) return;
@@ -57,8 +58,9 @@ public class SendUtils {
     /**
      * Formats and sends a list of MiniMessage strings to a CommandSender.
      *
-     * @param sender   The recipient (Player or Console).
-     * @param messages The list of raw strings to send.
+     * @param sender    The recipient (Player or Console).
+     * @param messages  The list of raw strings to send.
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
      */
     public static void sendMessages(CommandSender sender, List<String> messages, TagResolver extraTags) {
         if (sender == null || messages == null || messages.isEmpty()) return;
@@ -68,6 +70,14 @@ public class SendUtils {
         }
     }
 
+    /**
+     * Translates and sends a single message to a CommandSender based on their client language.
+     * Automatically retrieves the string from the locales folder and applies formatting.
+     *
+     * @param sender    The recipient of the message (Player or Console).
+     * @param path      The YAML key path in the locale file (e.g., "messages.welcome").
+     * @param extraTags Additional custom Placeholder tags to resolve (can be TagResolver.empty()).
+     */
     public static void sendTranslation(CommandSender sender, String path, TagResolver extraTags) {
         if (sender == null || path == null || path.isEmpty()) return;
 
@@ -83,8 +93,9 @@ public class SendUtils {
      * Automatically retrieves the correct string list from the locales folder and applies
      * MiniMessage formatting and PlaceholderAPI parsing.
      *
-     * @param sender The recipient of the messages (Player or Console).
-     * @param path   The YAML key path to the string list in the locales file (e.g., "plugin.help").
+     * @param sender    The recipient of the messages (Player or Console).
+     * @param path      The YAML key path to the string list in the locales file (e.g., "plugin.help").
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
      */
     public static void sendTranslations(CommandSender sender, String path, TagResolver extraTags) {
         // 1. Validate inputs to prevent errors
@@ -104,7 +115,8 @@ public class SendUtils {
      * Shorthand to send a formatted message directly to the server console.
      * Useful for startup, shutdown, or debugging logs.
      *
-     * @param message The message to log (supports custom tags like <prefix> and colors like <green>).
+     * @param message   The message to log (supports custom tags like {@code <prefix>} and colors like {@code <green>}).
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
      */
     public static void log(String message, TagResolver extraTags) {
         sendMessage(Bukkit.getConsoleSender(), message, extraTags);

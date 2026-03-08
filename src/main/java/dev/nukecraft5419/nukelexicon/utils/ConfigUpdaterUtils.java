@@ -45,9 +45,10 @@ public class ConfigUpdaterUtils {
 
     /**
      * Updates a YAML configuration file by merging it with the default file in the JAR.
+     * It intelligently preserves user values and comments.
      *
      * @param plugin   The plugin instance.
-     * @param fileName The name of the file (e.g., "config.yml").
+     * @param fileName The name of the file (e.g., {@code "config.yml"}).
      * @param file     The actual file on the disk to update.
      */
     public static void update(Plugin plugin, String fileName, File file) {

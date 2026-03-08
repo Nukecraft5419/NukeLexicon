@@ -53,7 +53,7 @@ public class LanguageConfigManager {
     }
 
     /**
-     * Loads and updates all language files from the 'locales' folder.
+     * Loads and updates all language files from the {@code locales/} folder.
      * Automatically extracts default languages from the JAR if they do not exist on disk.
      */
     public void loadLocales() {
@@ -82,7 +82,7 @@ public class LanguageConfigManager {
      * Retrieves the raw string from the correct YAML file, based on the player's client language.
      *
      * @param sender The recipient of the message (Player or Console).
-     * @param path   The path to the message inside the YAML file (e.g., "plugin.hello").
+     * @param path   The path to the message inside the YAML file (e.g., {@code "plugin.hello"}).
      * @return The raw, unformatted string from the language file.
      */
     public String getRawMessage(CommandSender sender, String path) {
@@ -111,7 +111,7 @@ public class LanguageConfigManager {
      * Retrieves a list of raw strings from the correct YAML file, based on the player's client language.
      *
      * @param sender The recipient of the message (Player or Console).
-     * @param path   The path to the string list inside the YAML file (e.g., "plugin.help").
+     * @param path   The path to the string list inside the YAML file (e.g., {@code "plugin.help"}).
      * @return The list of raw, unformatted strings from the language file.
      */
     public List<String> getRawMessageList(CommandSender sender, String path) {

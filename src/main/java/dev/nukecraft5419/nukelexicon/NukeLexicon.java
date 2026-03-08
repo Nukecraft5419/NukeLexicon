@@ -30,7 +30,7 @@ import org.bstats.charts.SimplePie;
 import org.bukkit.plugin.Plugin;
 
 /**
- * NukeLexicon - Advanced i18n & MiniMessage Text API.
+ * NukeLexicon - Advanced i18n and MiniMessage Text API.
  * This is the main core class of the library.
  */
 public class NukeLexicon {
@@ -125,22 +125,42 @@ public class NukeLexicon {
 
     // --- GETTERS ---
 
+    /**
+     * Gets the Bukkit Plugin instance hosting this library.
+     * @return The Plugin instance.
+     */
     public Plugin getPlugin() {
         return plugin;
     }
 
+    /**
+     * Gets the Adventure Audiences manager for dispatching MiniMessage components.
+     * @return The BukkitAudiences instance.
+     */
     public BukkitAudiences getAdventure() {
         return adventure;
     }
 
+    /**
+     * Gets the language manager handling locales and translation files.
+     * @return The LanguageConfigManager instance.
+     */
     public LanguageConfigManager getLanguageManager() {
         return languageManager;
     }
 
+    /**
+     * Gets the default fallback language used when a player's locale is not found.
+     * @return The language code (e.g., "en_US").
+     */
     public String getFallbackLanguage() {
         return fallbackLanguage;
     }
 
+    /**
+     * Gets the default prefix used as a safe fallback if missing from the config.
+     * @return The formatted prefix string.
+     */
     public String getDefaultPrefix() {
         return defaultPrefix;
     }
