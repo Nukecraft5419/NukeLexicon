@@ -31,6 +31,8 @@ java {
   toolchain {
     languageVersion = JavaLanguageVersion.of(21)
   }
+  withSourcesJar()
+  withJavadocJar()
 }
 
 tasks.jar {
@@ -63,6 +65,19 @@ publishing {
   publications {
     create<MavenPublication>("maven") {
       artifact(tasks.shadowJar)
+
+      artifact(tasks.named("javadocJar"))
+      artifact(tasks.named("sourcesJar"))
+
+      groupId = "dev.nukecraft5419"
+      artifactId = "nukelexicon"
+      version = project.version.toString()
+    }
+  }
+  repositories {
+    maven {
+      name = "LocalGitHubRepo"
+      url = uri(layout.buildDirectory.dir("repo"))
     }
   }
 }
