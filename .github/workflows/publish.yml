@@ -1,14 +1,15 @@
-name: Deploy to Maven Repo
+name: 🚀 Deploy to Maven Repo
 
 # Define when this workflow should run
 on:
   push:
     tags:
-      - 'v*.*.*' # Triggers automatically ONLY when a release tag is pushed (e.g., v1.0.0)
+      - 'v*.*.*' # Triggers automatically ONLY when a version tag is pushed (e.g., v1.0.0)
   workflow_dispatch: # Allows manual triggering from the GitHub Actions tab
 
 jobs:
   publish:
+    name: 📤 Deploy Artifacts
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout NukeLexicon Repository
@@ -20,10 +21,15 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: 🐘 Setup Gradle
+        # Optional but recommended: Enables caching for faster builds
+        uses: gradle/actions/setup-gradle@v3
+
       - name: 🔨 Grant Execute Permission for Gradle Wrapper
         run: chmod +x gradlew
 
-      - name: 📦 Generate Maven Artifacts (JAR, Javadoc, Sources, POM)
+      - name: 📦 Generate Maven Artifacts
+        # Generates JAR, Javadoc, Sources, and POM in build/repo/
         run: ./gradlew publish
 
       - name: 📂 Checkout Target Maven Repository
@@ -35,21 +41,21 @@ jobs:
 
       - name: 🚀 Copy Artifacts and Push to Maven Repository
         run: |
-          # Copy all generated artifacts (from dev/...) into the target repository
+          echo "📂 Copying generated artifacts into the repository..."
           cp -r build/repo/* maven-repo-dir/
 
-          # Navigate into the target repository directory
           cd maven-repo-dir
 
-          # Configure Git bot identity for the commit
+          echo "⚙️ Configuring Git bot identity..."
+          # Using the official GitHub Actions Bot ID for the verified avatar
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Stage all new files
+          echo "📤 Staging and Committing..."
           git add .
 
           # Commit the changes using the current tag/branch name, or skip if no changes
-          git commit -m "release: 🚀 Auto-deploy version ${{ github.ref_name }}" || echo "No changes to commit"
+          git commit -m "deploy(api): 🚀 Auto-deploy version ${{ github.ref_name }}" || echo "No changes to commit"
 
-          # Push the new artifacts to the Maven repository
+          echo "🚀 Pushing to maven-repo..."
           git push

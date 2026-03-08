@@ -3,9 +3,9 @@ name: Java CI with Gradle
 # Trigger the workflow on pushes and pull requests to the main branches
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
