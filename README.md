@@ -2,7 +2,7 @@
   
 <img src="https://raw.githubusercontent.com/nukecraft5419/NukeLexicon/main/assets/logo.png" alt="NukeLexicon Logo" height="256" />
 
-# NukeLexicon
+# 🌍 NukeLexicon
 
 **A modern, lightweight i18n and MiniMessage parsing API for Spigot plugins.**
 
@@ -22,7 +22,9 @@
 <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/nukecraft5419/NukeLexicon/badge&style=flat-square&label=Lines%20of%20Code" alt="Lines of Code" />
 <img src="https://img.shields.io/github/repo-size/nukecraft5419/NukeLexicon?style=flat-square&label=Repo%20Size" alt="Repo Size" />
 <img src="https://img.shields.io/github/license/nukecraft5419/NukeLexicon?style=flat-square&color=blue&label=License" alt="License" />
-<img src="https://www.codefactor.io/repository/github/nukecraft5419/nukelexicon/badge" alt="CodeFactor" />
+<a href="https://www.codefactor.io/repository/github/nukecraft5419/nukelexicon">
+  <img src="https://www.codefactor.io/repository/github/nukecraft5419/nukelexicon/badge" alt="CodeFactor" />
+</a>
 
 </div>
 
@@ -108,13 +110,17 @@ Retrieve and send messages based on the player's client language automatically:
 SendUtils.sendTranslation(player, "messages.welcome");
 ```
 
-### 📊 Metrics
+## 📊 Metrics
 
 NukeLexicon uses bStats to track anonymous usage data. View global statistics here:
 
 [![https://bstats.org/signatures/bukkit/NukeLexicon.svg](https://bstats.org/signatures/bukkit/NukeLexicon.svg)](https://bstats.org/plugin/bukkit/NukeLexicon/29948)
 
-### 📄 License
+## 🤝 Contributing
+
+Contributions are welcome! If you have suggestions or find bugs, feel free to open an issue or a pull request. Let's make localized plugins easier for everyone!
+
+## 📄 License
 
 This project is licensed under the MIT License.
 
