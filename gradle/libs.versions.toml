@@ -10,7 +10,7 @@ placeholderApi = "2.12.2"
 bStats  = "3.2.1"
 
 # Plugins
-shadowJar = "9.3.1"
+shadowJar = "9.3.2"
 
 [libraries]
 
