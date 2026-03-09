@@ -23,7 +23,7 @@ jobs:
 
       - name: 🐘 Setup Gradle
         # Optional but recommended: Enables caching for faster builds
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v5
 
       - name: 🔨 Grant Execute Permission for Gradle Wrapper
         run: chmod +x gradlew
