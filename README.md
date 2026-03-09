@@ -1,13 +1,29 @@
 <div align="center">
   
-  # NukeLexicon
-  A modern, lightweight i18n and MiniMessage parsing API for Spigot plugins.
-  
-  <br>
-  
-  ![Java 25](https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
-  ![Platform](https://img.shields.io/badge/Platform-Spigot%20%2F%20Paper-blue?style=for-the-badge)
-  
+<img src="https://raw.githubusercontent.com/nukecraft5419/NukeLexicon/main/assets/logo.png" alt="NukeLexicon Logo" height="256" />
+
+# NukeLexicon
+
+**A modern, lightweight i18n and MiniMessage parsing API for Spigot plugins.**
+
+<img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21" />
+<a href="https://github.com/nukecraft5419/NukeLexicon/actions">
+  <img src="https://img.shields.io/github/actions/workflow/status/nukecraft5419/NukeLexicon/ci.yml?branch=main&style=for-the-badge&logo=github&label=Build" alt="Build Status" />
+</a>
+<a href="https://repo.nukecraft5419.com/">
+  <img src="https://img.shields.io/badge/Maven_Repo-Hosted-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" alt="Maven Repo" />
+</a>
+<a href="https://docs.nukecraft5419.com/">
+  <img src="https://img.shields.io/badge/Javadoc-Consult-green?style=for-the-badge&logo=read-the-docs" alt="Docs" />
+</a>
+
+<br/>
+
+<img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/nukecraft5419/NukeLexicon/badge&style=flat-square&label=Lines%20of%20Code" alt="Lines of Code" />
+<img src="https://img.shields.io/github/repo-size/nukecraft5419/NukeLexicon?style=flat-square&label=Repo%20Size" alt="Repo Size" />
+<img src="https://img.shields.io/github/license/nukecraft5419/NukeLexicon?style=flat-square&color=blue&label=License" alt="License" />
+<img src="https://www.codefactor.io/repository/github/nukecraft5419/nukelexicon/badge" alt="CodeFactor" />
+
 </div>
 
 ---
@@ -21,23 +37,23 @@
 
 ## 📦 Installation (Gradle Kotlin DSL)
 
-Add the JitPack repository and the dependency to your `build.gradle.kts`:
+Add the **Nukecraft5419 Repository** and the dependency to your `build.gradle.kts`:
 
 ```kotlin
 repositories {
     mavenCentral()
-    maven("https://jitpack.io")
+    maven("https://repo.nukecraft5419.com/")
 }
 
 dependencies {
     // Replace '1.0.0' with the latest release version
-    implementation("com.github.nukecraft5419:NukeLexicon:1.0.0")
+    implementation("dev.nukecraft5419:nukelexicon:1.0.0")
 }
 ```
 
 ### **Option A: Quick Initialization (Recommended)**
 
-Automatically detects your plugin's name, prefix, and uses `en_US` as the default language.
+Automatically detects your plugin's name, prefix, and uses `en_US` as the default language:
     
 ```java
 @Override
@@ -49,19 +65,20 @@ public void onEnable() {
 
 ### Option B: Advanced Initialization
 
-Manually define the fallback language and the default prefix.
+Manually define the fallback language and the default prefix:
 
 ```java
 @Override
 public void onEnable() {
     // Parameters: Plugin instance, Fallback language, Default Prefix
-    NukeLexicon.init(this, "en_GB", "&8[&6MyPlugin&8]");
+    NukeLexicon.init(this, "en_GB", "<dark_gray>[<gold>MyPlugin</gold>]");
 }
 ```
 
-### 1.5 Clean Shutdown
+### 🧹 Clean Shutdown
 
 To prevent memory leaks, remember to close the API in your onDisable:
+
 ```java
 @Override
 public void onDisable() {
@@ -69,7 +86,7 @@ public void onDisable() {
 }
 ```
 
-### Send Formatted Messages
+### 💬 Send Formatted Messages
 
 Use SendUtils to deliver MiniMessage-formatted strings to any CommandSender:
 
@@ -82,7 +99,7 @@ SendUtils.log("<red>[Alert]</red> System core initialized.");
 ```
 
 
-### Localization (i18n)
+### 🌍 Localization (i18n)
 
 Retrieve and send messages based on the player's client language automatically:
 
