@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout NukeLexicon Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: ☕ Setup Java 21 (Temurin)
         uses: actions/setup-java@v4
@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew publish
 
       - name: 📂 Checkout Target Maven Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: nukecraft5419/maven-repo
           token: ${{ secrets.MAVEN_TOKEN }}
