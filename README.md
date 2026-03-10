@@ -25,7 +25,6 @@
       <img src="https://img.shields.io/badge/Maven_Repo-Hosted-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" alt="Maven Repo" />
     </a>
     <img src="https://img.shields.io/badge/Dependabot-Enabled-blue?style=for-the-badge&logo=dependabot" alt="Dependabot" />
-    
   </p>
 
   <p>
