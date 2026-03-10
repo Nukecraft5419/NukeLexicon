@@ -24,14 +24,11 @@
     <a href="https://repo.nukecraft5419.com/">
       <img src="https://img.shields.io/badge/Maven_Repo-Hosted-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" alt="Maven Repo" />
     </a>
-    <a href="https://docs.nukecraft5419.com/">
-      <img src="https://img.shields.io/badge/Javadoc-Consult-green?style=for-the-badge&logo=read-the-docs" alt="Docs" />
-    </a>
+    <img src="https://img.shields.io/badge/Dependabot-Enabled-blue?style=for-the-badge&logo=dependabot" alt="Dependabot" />
     
   </p>
 
   <p>
-    <img src="https://img.shields.io/badge/Dependabot-Enabled-blue?style=for-the-badge&logo=dependabot" alt="Dependabot" />
     <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/nukecraft5419/NukeLexicon/badge&style=for-the-badge&label=Lines%20of%20Code" alt="Lines of Code" />
     <img src="https://img.shields.io/github/repo-size/nukecraft5419/NukeLexicon?style=for-the-badge&label=Repo%20Size" alt="Repo Size" />
     <img src="https://img.shields.io/github/license/nukecraft5419/NukeLexicon?style=for-the-badge&color=blue&label=License" alt="License" />
