@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="assets/logo.png" alt="NukeLexicon Logo" height="256" />
+  <img src="https://raw.githubusercontent.com/Nukecraft5419/NukeLexicon/refs/heads/main/assets/logo.png" alt="NukeLexicon Logo" height="256" />
   
   <h1>📚 NukeLexicon API</h1>
   
