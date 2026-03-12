@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin' # Official recommended Eclipse Temurin distribution
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3 # Automatically caches dependencies to speed up future builds
+        uses: gradle/actions/setup-gradle@v5 # Automatically caches dependencies to speed up future builds
 
       - name: Build and Test API
         # Run the build task and generate javadocs to ensure no compilation errors exist
