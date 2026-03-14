@@ -29,6 +29,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 
 import java.time.Duration;
@@ -132,6 +133,22 @@ public class SendUtils {
     public static void log(String message, TagResolver extraTags) {
         sendMessage(Bukkit.getConsoleSender(), message, extraTags);
     }
+
+    /**
+     * Sends a translated Action Bar message to a specific player with custom tags.
+     *
+     * @param player    The player who will receive the Action Bar message.
+     * @param path      The path of the message in the locale configuration file.
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
+     */
+    public static void sendActionBar(@NonNull Player player, @NonNull String path, TagResolver extraTags) {
+        String rawText = NukeLexicon.getInstance().getLanguageManager().getRawMessage(player, path);
+        if (rawText == null || rawText.isEmpty()) return;
+
+        Component component = MessagesUtils.format(player, rawText, extraTags);
+        NukeLexicon.getInstance().getAdventure().player(player).sendActionBar(component);
+    }
+
     /**
      * Sends a translated Title and Subtitle to a specific player with custom timings and custom tags.
      *
@@ -212,6 +229,17 @@ public class SendUtils {
     public static void log(String message) {
         log(message, TagResolver.empty());
     }
+
+    /**
+     * Sends a translated Action Bar message to a specific player.
+     *
+     * @param player The player who will receive the Action Bar message.
+     * @param path   The path of the message in the locale configuration file.
+     */
+    public static void sendActionBar(@NonNull Player player, @NonNull String path) {
+        sendActionBar(player, path, TagResolver.empty());
+    }
+
     /**
      * Sends a translated Title and Subtitle to a specific player with custom timings.
      * Uses no extra custom tags.
