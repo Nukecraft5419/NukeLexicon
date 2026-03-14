@@ -24,6 +24,8 @@
 package dev.nukecraft5419.nukelexicon.utils;
 
 import dev.nukecraft5419.nukelexicon.NukeLexicon;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.title.Title;
@@ -175,6 +177,24 @@ public class SendUtils {
 
         Title title = Title.title(titleComp, subComp, times);
         NukeLexicon.getInstance().getAdventure().player(player).showTitle(title);
+    }
+
+    /**
+     * Plays a Kyori Adventure sound for a specific player.
+     *
+     * @param player   The player who will hear the sound.
+     * @param soundKey The Minecraft sound key (e.g., "entity.bat.takeoff").
+     * @param volume   The volume of the sound (default is 1.0f).
+     * @param pitch    The pitch of the sound (1.0f is normal, 0.8f is deeper, 1.2f is higher).
+     */
+    public static void playSound(@NonNull Player player, @NonNull String soundKey, float volume, float pitch) {
+        Sound sound = Sound.sound(
+            Key.key(soundKey),
+            Sound.Source.MASTER,
+            volume,
+            pitch
+        );
+        NukeLexicon.getInstance().getAdventure().player(player).playSound(sound);
     }
 
     // =========================================
