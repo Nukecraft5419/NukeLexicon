@@ -130,4 +130,54 @@ public class LanguageConfigManager {
 
         return config.getConfig().getStringList(path);
     }
+
+    /**
+     * Retrieves an integer value from the locale file safely.
+     *
+     * @param sender The target audience to determine the locale.
+     * @param path   The YAML key path.
+     * @param def    The default value to return if the path is missing or invalid.
+     * @return The parsed integer or the default value.
+     */
+    public int getInt(CommandSender sender, String path, int def) {
+        String raw = getRawMessage(sender, path);
+        if (raw == null || raw.isEmpty()) return def;
+        try {
+            return Integer.parseInt(raw);
+        } catch (NumberFormatException e) {
+            return def;
+        }
+    }
+
+    /**
+     * Retrieves a float value from the locale file safely.
+     *
+     * @param sender The target audience to determine the locale.
+     * @param path   The YAML key path.
+     * @param def    The default value to return if the path is missing or invalid.
+     * @return The parsed float or the default value.
+     */
+    public float getFloat(CommandSender sender, String path, float def) {
+        String raw = getRawMessage(sender, path);
+        if (raw == null || raw.isEmpty()) return def;
+        try {
+            return Float.parseFloat(raw);
+        } catch (NumberFormatException e) {
+            return def;
+        }
+    }
+
+    /**
+     * Retrieves a boolean value from the locale file safely.
+     *
+     * @param sender The target audience to determine the locale.
+     * @param path   The YAML key path.
+     * @param def    The default value to return if the path is missing or invalid.
+     * @return The parsed boolean or the default value.
+     */
+    public boolean getBoolean(CommandSender sender, String path, boolean def) {
+        String raw = getRawMessage(sender, path);
+        if (raw == null || raw.isEmpty()) return def;
+        return Boolean.parseBoolean(raw);
+    }
 }
