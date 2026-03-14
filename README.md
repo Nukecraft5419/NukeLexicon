@@ -9,6 +9,15 @@
   <br>
 
   <p>
+    <a href="https://discord.nukecraft5419.com/">
+      <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg" alt="discord-plural" height="64" style="margin-right: 5px;" />
+    </a>
+    <a href="https://x.com/Nukecraft5419">
+      <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/twitter-singular_vector.svg" alt="twitter-singular" height="64" style="margin-right: 5px;" />
+    </a>
+  </p>
+
+  <p>
     <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/built-with/java_vector.svg" alt="Java" height="64" style="margin-right: 5px;" />
     <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/built-with/gradle_vector.svg" alt="Gradle" height="64" style="margin-right: 5px;" />
     <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/spigot_vector.svg" alt="Spigot" height="64" style="margin-right: 5px;" />
@@ -17,7 +26,7 @@
   
   <p>
     <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21" />
-    <img src="https://img.shields.io/badge/Version-1.0.0-success?style=for-the-badge" alt="Version" />
+    <img src="https://img.shields.io/badge/Version-1.1.0-success?style=for-the-badge" alt="Version" />
     <a href="https://github.com/nukecraft5419/NukeLexicon/actions">
       <img src="https://img.shields.io/github/actions/workflow/status/nukecraft5419/NukeLexicon/ci.yml?branch=main&style=for-the-badge&logo=github&label=Build" alt="Build Status" />
     </a>
@@ -42,9 +51,10 @@
 ## ✨ Features
 * 🎨 **Modern Formatting**: Native support for [MiniMessage](https://docs.papermc.io/adventure/minimessage/format/) (RGB, Gradients, Click Events).
 * 🌐 **Smart i18n**: Multi-language support with automatic player locale detection and fallback systems.
-* 🔄 **PlaceholderAPI Integration**: Seamlessly converts `%placeholders%` into MiniMessage-compatible tags.
-* ⚡ **Zero Boilerplate**: Optimized utility classes to dispatch formatted components in a single line.
-* ⚙️ **Config Management**: Includes a robust YAML configuration updater and custom config handlers.
+* 🎭 **Rich Media Delivery**: Send Titles, Action Bars, and Sounds with a single line of code, fully integrated with the translation engine.
+* 🔄 **PlaceholderAPI Integration**: Seamlessly converts legacy `%placeholders%` into MiniMessage tags while preserving RGB formatting.
+* ⚡ **Zero Boilerplate**: Optimized utility classes to dispatch formatted components or retrieve safe config values (Int, Float, Boolean).
+* 🛠️ **Developer Toolbox**: Robust YAML configuration updater and a component-based API for GUIs and items.
 
 ---
 
@@ -59,8 +69,8 @@ repositories {
 }
 
 dependencies {
-    // Replace '1.0.0' with the latest release version
-    implementation("dev.nukecraft5419:nukelexicon:1.0.0")
+    // Replace '1.1.0' with the latest release version
+    implementation("dev.nukecraft5419:nukelexicon:1.1.0")
 }
 ```
 
@@ -123,8 +133,29 @@ Use SendUtils to deliver MiniMessage-formatted strings to any CommandSender:
 // Supports MiniMessage tags, hex colors, and PAPI placeholders
 SendUtils.sendMessage(player, "<gradient:aqua:blue>Welcome back, %player_name%!</gradient>");
 
+// New in 1.1.0: Send Titles with custom timings (in milliseconds)
+// Parameters: Player, TitlePath, SubtitlePath, FadeIn, Stay, FadeOut
+SendUtils.sendTitle(player, "titles.welcome.main", "titles.welcome.sub", 500, 3000, 1000);
+
+// New in 1.1.0: Send Action Bar messages
+SendUtils.sendActionBar(player, "messages.actionbar_info");
+
+// New in 1.1.0: Play sounds using Kyori Adventure keys
+SendUtils.playSound(player, "entity.experience_orb.pickup", 1.0f, 1.0f);
+
 // Log formatted messages to console
 SendUtils.log("<red>[Alert]</red> System core initialized.");
+```
+
+---
+
+### 🛠️ Component API
+
+Need a formatted component for an Item name, Lore, or GUI title? Use `getTranslationComponent` to fetch the localized and parsed Component directly:
+
+```java
+// Returns a Kyori Component with full MiniMessage and PAPI support
+Component displayName = SendUtils.getTranslationComponent(player, "items.sword_name");
 ```
 
 ---
