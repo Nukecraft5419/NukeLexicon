@@ -24,11 +24,17 @@
 package dev.nukecraft5419.nukelexicon.utils;
 
 import dev.nukecraft5419.nukelexicon.NukeLexicon;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jspecify.annotations.NonNull;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -130,6 +136,82 @@ public class SendUtils {
         sendMessage(Bukkit.getConsoleSender(), message, extraTags);
     }
 
+    /**
+     * Sends a translated Action Bar message to a specific player with custom tags.
+     *
+     * @param player    The player who will receive the Action Bar message.
+     * @param path      The path of the message in the locale configuration file.
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
+     */
+    public static void sendActionBar(@NonNull Player player, @NonNull String path, TagResolver extraTags) {
+        String rawText = NukeLexicon.getInstance().getLanguageManager().getRawMessage(player, path);
+        if (rawText == null || rawText.isEmpty()) return;
+
+        Component component = MessagesUtils.format(player, rawText, extraTags);
+        NukeLexicon.getInstance().getAdventure().player(player).sendActionBar(component);
+    }
+
+    /**
+     * Sends a translated Title and Subtitle to a specific player with custom timings and custom tags.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     * @param inMillis     The fade-in time in milliseconds.
+     * @param stayMillis   The amount of time the title stays on screen in milliseconds.
+     * @param outMillis    The fade-out time in milliseconds.
+     * @param extraTags    Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath, int inMillis, int stayMillis, int outMillis, TagResolver extraTags) {
+        String rawTitle = NukeLexicon.getInstance().getLanguageManager().getRawMessage(player, titlePath);
+        String rawSubtitle = NukeLexicon.getInstance().getLanguageManager().getRawMessage(player, subtitlePath);
+
+        Component titleComp = rawTitle != null && !rawTitle.isEmpty() ? MessagesUtils.format(player, rawTitle, extraTags) : Component.empty();
+        Component subComp = rawSubtitle != null && !rawSubtitle.isEmpty() ? MessagesUtils.format(player, rawSubtitle, extraTags) : Component.empty();
+
+        Title.Times times = Title.Times.times(
+            Duration.ofMillis(inMillis),
+            Duration.ofMillis(stayMillis),
+            Duration.ofMillis(outMillis)
+        );
+
+        Title title = Title.title(titleComp, subComp, times);
+        NukeLexicon.getInstance().getAdventure().player(player).showTitle(title);
+    }
+
+    /**
+     * Plays a Kyori Adventure sound for a specific player.
+     *
+     * @param player   The player who will hear the sound.
+     * @param soundKey The Minecraft sound key (e.g., "entity.bat.takeoff").
+     * @param volume   The volume of the sound (default is 1.0f).
+     * @param pitch    The pitch of the sound (1.0f is normal, 0.8f is deeper, 1.2f is higher).
+     */
+    public static void playSound(@NonNull Player player, @NonNull String soundKey, float volume, float pitch) {
+        Sound sound = Sound.sound(
+            Key.key(soundKey),
+            Sound.Source.MASTER,
+            volume,
+            pitch
+        );
+        NukeLexicon.getInstance().getAdventure().player(player).playSound(sound);
+    }
+
+    /**
+     * Retrieves a translated string and parses it directly into a Kyori Adventure Component with custom tags.
+     *
+     * @param sender    The target audience (Player or Console) used to determine the locale.
+     * @param path      The path of the message in the locale configuration file.
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
+     * @return The parsed Component ready to be sent or manipulated.
+     */
+    public static Component getTranslationComponent(@NonNull CommandSender sender, @NonNull String path, TagResolver extraTags) {
+        String rawText = NukeLexicon.getInstance().getLanguageManager().getRawMessage(sender, path);
+        if (rawText == null || rawText.isEmpty()) return Component.empty();
+
+        return MessagesUtils.format(sender, rawText, extraTags);
+    }
+
     // =========================================
     // SHORTHAND METHODS (No TagResolver needed)
     // =========================================
@@ -181,5 +263,66 @@ public class SendUtils {
      */
     public static void log(String message) {
         log(message, TagResolver.empty());
+    }
+
+    /**
+     * Sends a translated Action Bar message to a specific player.
+     *
+     * @param player The player who will receive the Action Bar message.
+     * @param path   The path of the message in the locale configuration file.
+     */
+    public static void sendActionBar(@NonNull Player player, @NonNull String path) {
+        sendActionBar(player, path, TagResolver.empty());
+    }
+
+    /**
+     * Sends a translated Title and Subtitle to a specific player with custom timings.
+     * Uses no extra custom tags.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     * @param inMillis     The fade-in time in milliseconds.
+     * @param stayMillis   The amount of time the title stays on screen in milliseconds.
+     * @param outMillis    The fade-out time in milliseconds.
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath, int inMillis, int stayMillis, int outMillis) {
+        sendTitle(player, titlePath, subtitlePath, inMillis, stayMillis, outMillis, TagResolver.empty());
+    }
+
+    /**
+     * Sends a translated Title and Subtitle to a specific player with custom tags.
+     * Uses default timings: 0.5s fade-in, 3.0s stay, 1.0s fade-out.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     * @param extraTags    Custom Placeholder tags to resolve.
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath, TagResolver extraTags) {
+        sendTitle(player, titlePath, subtitlePath, 500, 3000, 1000, extraTags);
+    }
+
+    /**
+     * Sends a translated Title and Subtitle to a specific player.
+     * Uses default timings: 0.5s fade-in, 3.0s stay, 1.0s fade-out, and no custom tags.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath) {
+        sendTitle(player, titlePath, subtitlePath, 500, 3000, 1000, TagResolver.empty());
+    }
+
+    /**
+     * Retrieves a translated string and parses it directly into a Kyori Adventure Component.
+     *
+     * @param sender The target audience (Player or Console) used to determine the locale.
+     * @param path   The path of the message in the locale configuration file.
+     * @return The parsed Component ready to be sent or manipulated.
+     */
+    public static Component getTranslationComponent(@NonNull CommandSender sender, @NonNull String path) {
+        return getTranslationComponent(sender, path, TagResolver.empty());
     }
 }
