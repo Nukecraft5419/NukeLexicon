@@ -26,9 +26,12 @@ package dev.nukecraft5419.nukelexicon.utils;
 import dev.nukecraft5419.nukelexicon.NukeLexicon;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.jspecify.annotations.NonNull;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -129,6 +132,33 @@ public class SendUtils {
     public static void log(String message, TagResolver extraTags) {
         sendMessage(Bukkit.getConsoleSender(), message, extraTags);
     }
+    /**
+     * Sends a translated Title and Subtitle to a specific player with custom timings and custom tags.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     * @param inMillis     The fade-in time in milliseconds.
+     * @param stayMillis   The amount of time the title stays on screen in milliseconds.
+     * @param outMillis    The fade-out time in milliseconds.
+     * @param extraTags    Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath, int inMillis, int stayMillis, int outMillis, TagResolver extraTags) {
+        String rawTitle = NukeLexicon.getInstance().getLanguageManager().getRawMessage(player, titlePath);
+        String rawSubtitle = NukeLexicon.getInstance().getLanguageManager().getRawMessage(player, subtitlePath);
+
+        Component titleComp = rawTitle != null && !rawTitle.isEmpty() ? MessagesUtils.format(player, rawTitle, extraTags) : Component.empty();
+        Component subComp = rawSubtitle != null && !rawSubtitle.isEmpty() ? MessagesUtils.format(player, rawSubtitle, extraTags) : Component.empty();
+
+        Title.Times times = Title.Times.times(
+            Duration.ofMillis(inMillis),
+            Duration.ofMillis(stayMillis),
+            Duration.ofMillis(outMillis)
+        );
+
+        Title title = Title.title(titleComp, subComp, times);
+        NukeLexicon.getInstance().getAdventure().player(player).showTitle(title);
+    }
 
     // =========================================
     // SHORTHAND METHODS (No TagResolver needed)
@@ -181,5 +211,44 @@ public class SendUtils {
      */
     public static void log(String message) {
         log(message, TagResolver.empty());
+    }
+    /**
+     * Sends a translated Title and Subtitle to a specific player with custom timings.
+     * Uses no extra custom tags.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     * @param inMillis     The fade-in time in milliseconds.
+     * @param stayMillis   The amount of time the title stays on screen in milliseconds.
+     * @param outMillis    The fade-out time in milliseconds.
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath, int inMillis, int stayMillis, int outMillis) {
+        sendTitle(player, titlePath, subtitlePath, inMillis, stayMillis, outMillis, TagResolver.empty());
+    }
+
+    /**
+     * Sends a translated Title and Subtitle to a specific player with custom tags.
+     * Uses default timings: 0.5s fade-in, 3.0s stay, 1.0s fade-out.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     * @param extraTags    Custom Placeholder tags to resolve.
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath, TagResolver extraTags) {
+        sendTitle(player, titlePath, subtitlePath, 500, 3000, 1000, extraTags);
+    }
+
+    /**
+     * Sends a translated Title and Subtitle to a specific player.
+     * Uses default timings: 0.5s fade-in, 3.0s stay, 1.0s fade-out, and no custom tags.
+     *
+     * @param player       The player who will receive the Title.
+     * @param titlePath    The path of the main title string in the locale configuration.
+     * @param subtitlePath The path of the subtitle string in the locale configuration.
+     */
+    public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath) {
+        sendTitle(player, titlePath, subtitlePath, 500, 3000, 1000, TagResolver.empty());
     }
 }
