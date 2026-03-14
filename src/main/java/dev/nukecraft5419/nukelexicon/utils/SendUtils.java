@@ -197,6 +197,21 @@ public class SendUtils {
         NukeLexicon.getInstance().getAdventure().player(player).playSound(sound);
     }
 
+    /**
+     * Retrieves a translated string and parses it directly into a Kyori Adventure Component with custom tags.
+     *
+     * @param sender    The target audience (Player or Console) used to determine the locale.
+     * @param path      The path of the message in the locale configuration file.
+     * @param extraTags Optional custom Placeholder tags to resolve (use TagResolver.empty() if none).
+     * @return The parsed Component ready to be sent or manipulated.
+     */
+    public static Component getTranslationComponent(@NonNull CommandSender sender, @NonNull String path, TagResolver extraTags) {
+        String rawText = NukeLexicon.getInstance().getLanguageManager().getRawMessage(sender, path);
+        if (rawText == null || rawText.isEmpty()) return Component.empty();
+
+        return MessagesUtils.format(sender, rawText, extraTags);
+    }
+
     // =========================================
     // SHORTHAND METHODS (No TagResolver needed)
     // =========================================
@@ -298,5 +313,16 @@ public class SendUtils {
      */
     public static void sendTitle(@NonNull Player player, @NonNull String titlePath, @NonNull String subtitlePath) {
         sendTitle(player, titlePath, subtitlePath, 500, 3000, 1000, TagResolver.empty());
+    }
+
+    /**
+     * Retrieves a translated string and parses it directly into a Kyori Adventure Component.
+     *
+     * @param sender The target audience (Player or Console) used to determine the locale.
+     * @param path   The path of the message in the locale configuration file.
+     * @return The parsed Component ready to be sent or manipulated.
+     */
+    public static Component getTranslationComponent(@NonNull CommandSender sender, @NonNull String path) {
+        return getTranslationComponent(sender, path, TagResolver.empty());
     }
 }
