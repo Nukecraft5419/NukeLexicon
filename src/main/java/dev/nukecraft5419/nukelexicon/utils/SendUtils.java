@@ -24,6 +24,7 @@
 package dev.nukecraft5419.nukelexicon.utils;
 
 import dev.nukecraft5419.nukelexicon.NukeLexicon;
+import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -212,6 +213,36 @@ public class SendUtils {
         return MessagesUtils.format(sender, rawText, extraTags);
     }
 
+    /**
+     * Opens a virtual book for a player with translated and formatted pages.
+     *
+     * @param player     The player who will see the book.
+     * @param titlePath  The key path for the title in the language file.
+     * @param author     The author of the book (e.g., Server Name).
+     * @param pagesPath  The key path for the list of strings (pages) in the language file.
+     * @param extraTags  Optional custom tags for placeholders.
+     */
+    public static void openBook(@NonNull Player player, @NonNull String titlePath, @NonNull String author, @NonNull String pagesPath, TagResolver extraTags) {
+        // Retrieve the translated title as a Component
+        Component title = getTranslationComponent(player, titlePath, extraTags);
+
+        // Retrieve the raw list of pages from the language manager
+        List<String> rawPages = NukeLexicon.getInstance().getLanguageManager().getRawMessageList(player, pagesPath);
+
+        // Build the Adventure Book
+        Book.Builder bookBuilder = Book.builder()
+            .title(title)
+            .author(Component.text(author));
+
+        // Format each page with MiniMessage and add it to the book
+        for (String page : rawPages) {
+            bookBuilder.addPage(MessagesUtils.format(player, page, extraTags));
+        }
+
+        // Open the book for the player
+        NukeLexicon.getInstance().getAdventure().player(player).openBook(bookBuilder.build());
+    }
+
     // =========================================
     // SHORTHAND METHODS (No TagResolver needed)
     // =========================================
@@ -324,5 +355,17 @@ public class SendUtils {
      */
     public static Component getTranslationComponent(@NonNull CommandSender sender, @NonNull String path) {
         return getTranslationComponent(sender, path, TagResolver.empty());
+    }
+
+    /**
+     * Shorthand to open a virtual book without extra tags.
+     *
+     * @param player     The player who will see the book.
+     * @param titlePath  The key path for the title in the language file.
+     * @param author     The author of the book.
+     * @param pagesPath  The key path for the pages in the language file.
+     */
+    public static void openBook(@NonNull Player player, @NonNull String titlePath, @NonNull String author, @NonNull String pagesPath) {
+        openBook(player, titlePath, author, pagesPath, TagResolver.empty());
     }
 }
