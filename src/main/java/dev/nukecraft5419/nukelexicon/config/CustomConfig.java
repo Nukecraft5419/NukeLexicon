@@ -147,4 +147,80 @@ public class CustomConfig {
             }
         }
     }
+
+    // --- [ Safe Config Parsers ] ---
+
+    /**
+     * Safely retrieves an integer from the config.
+     * If the value is missing or invalid (e.g., text instead of a number),
+     * it logs a warning and returns the default value.
+     *
+     * @param path The path to the config node.
+     * @param def  The default value to return if parsing fails.
+     * @return The parsed integer or the default value.
+     */
+    public int getIntSafe(String path, int def) {
+        Object val = getConfig().get(path);
+
+        return switch (val) {
+            case Number n -> n.intValue();
+            case String text -> {
+                try {
+                    yield Integer.parseInt(text);
+                } catch (NumberFormatException e) {
+                    plugin.getLogger().warning("[⚠️] Invalid integer at '" + path + "' in " + file.getName() + ": '" + text + "'. Using default: " + def);
+                    yield def;
+                }
+            }
+            case null, default -> def;
+        };
+    }
+
+    /**
+     * Safely retrieves a float from the config.
+     *
+     * @param path The path to the config node.
+     * @param def  The default value to return if parsing fails.
+     * @return The parsed float or the default value.
+     */
+    public float getFloatSafe(String path, float def) {
+        Object val = getConfig().get(path);
+
+        return switch (val) {
+            case Number n -> n.floatValue();
+            case String text -> {
+                try {
+                    yield Float.parseFloat(text);
+                } catch (NumberFormatException e) {
+                    plugin.getLogger().warning("[⚠️] Invalid float at '" + path + "' in " + file.getName() + ": '" + text + "'. Using default: " + def);
+                    yield def;
+                }
+            }
+            case null, default -> def;
+        };
+    }
+
+    /**
+     * Safely retrieves a boolean from the config.
+     * Note: Bukkit usually handles booleans well, but this ensures consistency and logs typos.
+     *
+     * @param path The path to the config node.
+     * @param def  The default value to return if parsing fails.
+     * @return The parsed boolean or the default value.
+     */
+    public boolean getBooleanSafe(String path, boolean def) {
+        Object val = getConfig().get(path);
+
+        return switch (val) {
+            case Boolean b -> b;
+            case String text -> {
+                if (text.equalsIgnoreCase("true") || text.equalsIgnoreCase("yes") || text.equalsIgnoreCase("on")) yield true;
+                if (text.equalsIgnoreCase("false") || text.equalsIgnoreCase("no") || text.equalsIgnoreCase("off")) yield false;
+
+                plugin.getLogger().warning("[⚠️] Invalid boolean at '" + path + "' in " + file.getName() + ": '" + text + "'. Using default: " + def);
+                yield def;
+            }
+            case null, default -> def;
+        };
+    }
 }
