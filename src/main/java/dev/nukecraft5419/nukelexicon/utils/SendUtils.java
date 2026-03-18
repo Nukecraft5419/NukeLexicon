@@ -24,6 +24,7 @@
 package dev.nukecraft5419.nukelexicon.utils;
 
 import dev.nukecraft5419.nukelexicon.NukeLexicon;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -243,6 +244,47 @@ public class SendUtils {
         NukeLexicon.getInstance().getAdventure().player(player).openBook(bookBuilder.build());
     }
 
+    /**
+     * Creates and shows a translated BossBar to a player.
+     *
+     * @param player    The target player.
+     * @param path      The path to the message in the locale file.
+     * @param color     The color of the bar (e.g., BossBar.Color.PURPLE).
+     * @param overlay   The overlay style (e.g., BossBar.Overlay.PROGRESS).
+     * @param progress  The progress value (0.0f to 1.0f).
+     * @param extraTags Optional custom tags to resolve.
+     * @return The created BossBar instance, useful for updating or hiding it later.
+     */
+    public static BossBar showBossBar(@NonNull Player player, @NonNull String path, BossBar.Color color, BossBar.Overlay overlay, float progress, TagResolver extraTags) {
+        Component name = getTranslationComponent(player, path, extraTags);
+        BossBar bar = BossBar.bossBar(name, progress, color, overlay);
+        NukeLexicon.getInstance().getAdventure().player(player).showBossBar(bar);
+        return bar;
+    }
+
+    /**
+     * Hides a specific BossBar from a player.
+     *
+     * @param player The target player.
+     * @param bar    The BossBar instance to hide.
+     */
+    public static void hideBossBar(@NonNull Player player, @NonNull BossBar bar) {
+        NukeLexicon.getInstance().getAdventure().player(player).hideBossBar(bar);
+    }
+
+    /**
+     * Updates the text of an existing BossBar using a translated string.
+     * Useful for minigames, timers, or updating stats on the fly.
+     *
+     * @param sender    The target audience (Player or Console) used to determine the locale.
+     * @param bar       The existing BossBar to update.
+     * @param path      The path to the new message in the locale file.
+     * @param extraTags Optional custom tags to resolve.
+     */
+    public static void updateBossBarName(@NonNull CommandSender sender, @NonNull BossBar bar, @NonNull String path, TagResolver extraTags) {
+        bar.name(getTranslationComponent(sender, path, extraTags));
+    }
+
     // =========================================
     // SHORTHAND METHODS (No TagResolver needed)
     // =========================================
@@ -367,5 +409,30 @@ public class SendUtils {
      */
     public static void openBook(@NonNull Player player, @NonNull String titlePath, @NonNull String author, @NonNull String pagesPath) {
         openBook(player, titlePath, author, pagesPath, TagResolver.empty());
+    }
+
+    /**
+     * Creates and shows a translated BossBar to a player without extra tags.
+     *
+     * @param player    The target player.
+     * @param path      The path to the message in the locale file.
+     * @param color     The color of the bar.
+     * @param overlay   The overlay style.
+     * @param progress  The progress value (0.0f to 1.0f).
+     * @return The created BossBar instance.
+     */
+    public static BossBar showBossBar(@NonNull Player player, @NonNull String path, BossBar.Color color, BossBar.Overlay overlay, float progress) {
+        return showBossBar(player, path, color, overlay, progress, TagResolver.empty());
+    }
+
+    /**
+     * Updates the text of an existing BossBar using a translated string without extra tags.
+     *
+     * @param sender The target audience used to determine the locale.
+     * @param bar    The existing BossBar to update.
+     * @param path   The path to the new message in the locale file.
+     */
+    public static void updateBossBarName(@NonNull CommandSender sender, @NonNull BossBar bar, @NonNull String path) {
+        updateBossBarName(sender, bar, path, TagResolver.empty());
     }
 }
